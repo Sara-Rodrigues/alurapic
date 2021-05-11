@@ -1,18 +1,13 @@
 <template>
-  <div>
-    <h1>{{ titulo }}</h1>
+  <div class="corpo">
+    <h1 class="centralizado">{{ titulo }}</h1>
 
-    <!-- Não podemos usar interpolação em atributos! 
-    Precisamos fazer de outra maneira, aliás essa maneira possui duas formas. 
-    A primeira é usarmos v-bind:
-    <img v-bind:src="foto.url" v-bind:alt=foto.titulo>
-
-    podemos trocar v-bind pelo seu atalho dois pontos: -->
-    <ul>
-      <li v-for="foto of fotos">
-        <img :src="foto.url" :alt=foto.titulo>
+    <ul class="lista-fotos">
+      <li class="lista-fotos-item" v-for="foto of fotos">
+        <img :src="foto.url" :alt="foto.titulo">
       </li>
     </ul>
+
   </div>
 </template>
 
@@ -30,11 +25,27 @@ export default {
     this.$http.get('http://localhost:3000/v1/fotos')
       .then(res => res.json())
       .then(fotos => this.fotos = fotos, err => console.log(err));
-      
+
   },
 }
 </script>
 
 <style>
+  .centralizado {
+    text-align: center;
+  }
 
+  .corpo {
+    font-family: Helvetica, sans-serif;
+    margin: 0 auto;
+    width: 96%;
+  }
+
+  .lista-fotos {
+    list-style: none;
+  }
+
+  .lista-fotos .lista-fotos-item {
+    display: inline-block;
+  }
 </style>
