@@ -21,18 +21,14 @@ export default {
   data() {
     return {
       titulo: 'Alurapic',
-      fotos: [
-        {
-          url: 'https://t2.ea.ltmcdn.com/pt/images/1/7/4/nomes_para_gatos_masculinos_cinza_22471_1_600.jpg',
-          titulo: 'Gato Cinza'
-        },
-        {
-          url: 'https://t2.ea.ltmcdn.com/pt/images/1/7/4/nomes_para_gatos_masculinos_cinza_22471_1_600.jpg',
-          titulo: 'Gatinho'
-        }]
+      fotos: []
     }
-    
-  }
+  },
+
+  created() {
+      alert('Criei o component');
+      // buscaremos nossas fotos aqui
+  },
 }
 </script>
 
