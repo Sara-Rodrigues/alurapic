@@ -12,7 +12,7 @@ export default {
     props: ['titulo']
 }
 </script>
-<style>
+<style scoped>
  .painel {
     padding: 0 auto;
     border: solid 2px grey;
