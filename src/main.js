@@ -8,6 +8,8 @@ import './directives/Transform';
 // registrando o módulo/plugin no global view object
 Vue.use(VueResource);
 
+Vue.http.options.root = 'http://localhost:3000';
+
 // adicionando a propriedade mode com o valor history.
 const router = new VueRouter({
   routes,
