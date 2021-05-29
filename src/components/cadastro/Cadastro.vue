@@ -12,7 +12,11 @@
       <div class="controle">
         <label for="url">URL</label>
         <input v-model.lazy="foto.url" id="url" autocomplete="off" />
-        <imagem-responsiva v-show="foto.url" :url="foto.url" :titulo="foto.titulo"/>
+        <imagem-responsiva
+          v-show="foto.url"
+          :url="foto.url"
+          :titulo="foto.titulo"
+        />
       </div>
 
       <div class="controle">
@@ -37,6 +41,7 @@
 <script>
 import ImagemResponsiva from "../shared/imagem-responsiva/ImagemResponsiva.vue";
 import Botao from "../shared/botao/Botao.vue";
+import Foto from "../../domain/foto/Foto.js";
 
 export default {
   components: {
@@ -46,9 +51,7 @@ export default {
   data() {
     return {
       foto: {
-        titulo: "",
-        url: "",
-        descricao: "",
+        foto: new Foto(),
       },
     };
   },
