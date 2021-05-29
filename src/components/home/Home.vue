@@ -1,108 +1,130 @@
 <template>
   <div class="corpo">
-
     <h1 class="centralizado">{{ titulo }}</h1>
 
-    <input type="search" class="filtro" v-on:input="filtro = $event.target.value" placeholder="filtre pelo título da foto">
+    <input
+      type="search"
+      class="filtro"
+      v-on:input="filtro = $event.target.value"
+      placeholder="filtre pelo título da foto"
+    />
     <ul class="lista-fotos">
       <li class="lista-fotos-item" v-for="foto in fotosComFiltro">
-
         <meu-painel :titulo="foto.titulo">
-            <!-- <imagem-responsiva :url="foto.url" :titulo="foto.titulo" v-meu-transform:rotate.animate.reverse="30"/> -->
-            <imagem-responsiva :url="foto.url" :titulo="foto.titulo" v-meu-transform:scale.animate="1.2"/>
-            
-            <meu-botao 
-            rotulo="remover" 
-            tipo="button" 
+          <!-- <imagem-responsiva :url="foto.url" :titulo="foto.titulo" v-meu-transform:rotate.animate.reverse="30"/> -->
+          <imagem-responsiva
+            :url="foto.url"
+            :titulo="foto.titulo"
+            v-meu-transform:scale.animate="1.2"
+          />
+
+          <meu-botao
+            rotulo="remover"
+            tipo="button"
             :confirmacao="true"
             @botaoAtivado="remove(foto)"
-            estilo="perigo"/>
+            estilo="perigo"
+          />
         </meu-painel>
-
       </li>
     </ul>
-
   </div>
 </template>
 
 <script>
-import Painel from '../shared/painel/Painel.vue';
-import ImagemResponsiva from '../shared/imagem-responsiva/ImagemResponsiva.vue'
-import Botao from '../shared/botao/Botao.vue';
+import Painel from "../shared/painel/Painel.vue";
+import ImagemResponsiva from "../shared/imagem-responsiva/ImagemResponsiva.vue";
+import Botao from "../shared/botao/Botao.vue";
 
 export default {
   components: {
-    'meu-painel': Painel,
-    'imagem-responsiva': ImagemResponsiva,
-    'meu-botao': Botao
+    "meu-painel": Painel,
+    "imagem-responsiva": ImagemResponsiva,
+    "meu-botao": Botao,
   },
 
   data() {
     return {
-      titulo: 'Alurapic',
+      titulo: "Alurapic",
       fotos: [],
-      filtro: ''
-    }
+      filtro: "",
+    };
   },
 
   computed: {
-
     fotosComFiltro() {
-
       if (this.filtro) {
-          // criando uma expressão com o valor do filtro, insensitivo
-        let exp = new RegExp(this.filtro.trim(), 'i');
+        // criando uma expressão com o valor do filtro, insensitivo
+        let exp = new RegExp(this.filtro.trim(), "i");
         // retorna apenas as fotos que condizem com a expressão
-        return this.fotos.filter(foto => exp.test(foto.titulo));
+        return this.fotos.filter((foto) => exp.test(foto.titulo));
       } else {
         return this.fotos;
       }
-
-    }
+    },
   },
 
   created() {
-
-    this.$http.get('http://localhost:3000/v1/fotos')
-      .then(res => res.json())
-      .then(fotos => this.fotos = fotos, err => console.log(err));
-
+    this.$http
+      .get("http://localhost:3000/v1/fotos")
+      .then((res) => res.json())
+      .then(
+        (fotos) => (this.fotos = fotos),
+        (err) => console.log(err)
+      );
   },
-  
-  methods: {
 
-     remove(foto) {
-        alert('Romover a foto' + foto.titulo);
-    }
-  }
-}
+  methods: {
+    remove(foto) {
+      this.$http.delete(`http://localhost:3000/v1/fotos/${foto._id}`).then(
+        () => {
+          // assim que apagar, exibe a mensagem para o usuário
+          this.mensagem = "Foto removida com sucesso";
+        },
+        (err) => {
+          this.mensagem = "Não foi possível remover a foto";
+          console.log(err);
+        }
+      );
+    },
+  },
+  created() {
+    this.$http
+      .get("http://localhost:3000/v1/fotos")
+      .then((res) => res.json())
+      .then(
+        (fotos) => (this.fotos = fotos),
+        (err) => console.log(err)
+      );
+  },
+};
 </script>
 
 <style>
-  .centralizado {
-    text-align: center;
-  }
+.centralizado {
+  text-align: center;
+}
 
-  .corpo {
-    font-family: Helvetica, sans-serif;
-    margin: 0 auto;
-    width: 96%;
-  }
+.corpo {
+  font-family: Helvetica, sans-serif;
+  margin: 0 auto;
+  width: 96%;
+}
 
-  .lista-fotos {
-    list-style: none;
-  }
+.lista-fotos {
+  list-style: none;
+}
 
-  .lista-fotos .lista-fotos-item {
-    display: inline-block;
-  }
+.lista-fotos .lista-fotos-item {
+  display: inline-block;
+}
 
-  .imagem-responsiva {
-    width: 100%;
-  }
+.imagem-responsiva {
+  width: 100%;
+}
 
-  .filtro {
-    display: block;
-    width: 100%;
-  }
+.filtro {
+  display: block;
+  width: 100%;
+}
 </style>
