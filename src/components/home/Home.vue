@@ -35,6 +35,7 @@
 import Painel from "../shared/painel/Painel.vue";
 import ImagemResponsiva from "../shared/imagem-responsiva/ImagemResponsiva.vue";
 import Botao from "../shared/botao/Botao.vue";
+import FotoService from "../../domain/foto/FotoService";
 
 export default {
   components: {
@@ -66,12 +67,10 @@ export default {
 
   methods: {
     remove(foto) {
-      // a chave do objeto é o parâmetro usando no endereço do recurso
-
-      this.resource.delete({ id: foto._id }).then(
+      this.service.apaga(foto._id).then(
         () => {
-          let indice = this.fotos.indexOf(foto); // acha a posição da foto na lista
-          this.fotos.splice(indice, 1); // a instrução altera o array
+          let indice = this.fotos.indexOf(foto);
+          this.fotos.splice(indice, 1);
           this.mensagem = "Foto removida com sucesso";
         },
         (err) => {
@@ -80,26 +79,14 @@ export default {
         }
       );
     },
-    created() {
-      // agora conseguimos acessar o recurso configurado em outros métodos do nosso componente
-      // veja que foi adicionado {/id}
-      this.resource = this.$resource("v1/fotos{/id}");
-      
-      this.resource
-        .query()
-        .then((res) => res.json())
-        .then(
-          (fotos) => (this.fotos = fotos),
-          (err) => console.log(err)
-        );
+  },
+  created() {
+    this.service = new FotoService(this.$resource);
 
-      /*
-    this.$http
-      .get('v1/fotos')
-      .then(res => res.json())
-      .then(fotos => this.fotos = fotos, err => console.log(err));
-      */
-    },
+    this.service.lista().then(
+      (fotos) => (this.fotos = fotos),
+      (err) => console.log(err)
+    );
   },
 };
 </script>
