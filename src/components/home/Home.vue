@@ -64,19 +64,11 @@ export default {
     },
   },
 
-  created() {
-    this.$http
-      .get("http://localhost:3000/v1/fotos")
-      .then((res) => res.json())
-      .then(
-        (fotos) => (this.fotos = fotos),
-        (err) => console.log(err)
-      );
-  },
-
   methods: {
     remove(foto) {
-      this.$http.delete(`v1/fotos/${foto._id}`).then(
+      // a chave do objeto é o parâmetro usando no endereço do recurso
+
+      this.resource.delete({ id: foto._id }).then(
         () => {
           let indice = this.fotos.indexOf(foto); // acha a posição da foto na lista
           this.fotos.splice(indice, 1); // a instrução altera o array
@@ -88,15 +80,26 @@ export default {
         }
       );
     },
-  },
-  created() {
+    created() {
+      // agora conseguimos acessar o recurso configurado em outros métodos do nosso componente
+      // veja que foi adicionado {/id}
+      this.resource = this.$resource("v1/fotos{/id}");
+      
+      this.resource
+        .query()
+        .then((res) => res.json())
+        .then(
+          (fotos) => (this.fotos = fotos),
+          (err) => console.log(err)
+        );
+
+      /*
     this.$http
       .get('v1/fotos')
-      .then((res) => res.json())
-      .then(
-        (fotos) => (this.fotos = fotos),
-        (err) => console.log(err)
-      );
+      .then(res => res.json())
+      .then(fotos => this.fotos = fotos, err => console.log(err));
+      */
+    },
   },
 };
 </script>
