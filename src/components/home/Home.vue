@@ -78,7 +78,8 @@ export default {
     remove(foto) {
       this.$http.delete(`http://localhost:3000/v1/fotos/${foto._id}`).then(
         () => {
-          // assim que apagar, exibe a mensagem para o usuário
+          let indice = this.fotos.indexOf(foto); // acha a posição da foto na lista
+          this.fotos.splice(indice, 1); // a instrução altera o array
           this.mensagem = "Foto removida com sucesso";
         },
         (err) => {
