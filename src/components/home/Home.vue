@@ -18,6 +18,12 @@
             v-meu-transform:scale.animate="1.2"
           />
 
+          <!-- novo botão! -->
+
+          <router-link :to="{ name: 'altera', params: { id: foto._id } }">
+            <meu-botao rotulo="Alterar" tipo="button" />
+          </router-link>
+
           <meu-botao
             rotulo="remover"
             tipo="button"
