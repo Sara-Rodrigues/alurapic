@@ -53,6 +53,7 @@ export default {
     return {
       foto: {
         foto: new Foto(),
+        id: this.$route.params.id,
       },
     };
   },
@@ -64,9 +65,12 @@ export default {
         (err) => console.log(err)
       );
     },
-    created() {
-      this.service = new FotoService(this.$resource);
-    },
+  },
+  created() {
+    this.service = new FotoService(this.$resource);
+    if (this.id) {
+      this.service.busca(this.id).then(foto => this.foto = foto);
+    }
   },
 };
 </script>
