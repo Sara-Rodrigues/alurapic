@@ -4,19 +4,22 @@ import VueResource from 'vue-resource';
 import VueRouter from 'vue-router';
 import { routes } from './routes';
 import './directives/Transform';
-
-// importando o VeeValidate 
 import VeeValidate from 'vee-validate';
+import msg from './pt_BR';
 
-// registrando o plugin 
-Vue.use(VeeValidate);
+Vue.use(VeeValidate, {
+  locale: 'pt_BR',
+  dictionary: {
+    pt_BR: {
+      messages: msg
+    }
+  }
+});
 
-// registrando o módulo/plugin no global view object
 Vue.use(VueResource);
 
 Vue.http.options.root = 'http://localhost:3000';
 
-// adicionando a propriedade mode com o valor history.
 const router = new VueRouter({
   routes,
   mode: 'history'
