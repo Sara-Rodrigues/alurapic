@@ -52,10 +52,8 @@ export default {
   },
   data() {
     return {
-      foto: {
-        foto: new Foto(),
-        id: this.$route.params.id,
-      },
+      foto: new Foto(),
+      id: this.$route.params.id,
     };
   },
 
