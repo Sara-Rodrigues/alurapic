@@ -5,6 +5,12 @@ import VueRouter from 'vue-router';
 import { routes } from './routes';
 import './directives/Transform';
 
+// importando o VeeValidate 
+import VeeValidate from 'vee-validate';
+
+// registrando o plugin 
+Vue.use(VeeValidate);
+
 // registrando o módulo/plugin no global view object
 Vue.use(VueResource);
 
